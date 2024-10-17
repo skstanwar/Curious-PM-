@@ -23,7 +23,7 @@ This project enhances the audio quality of videos by extracting the audio, conve
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/skstanwar/Curious-PM-.git
-    cd YOUR_PROJECT
+    cd Curious-PM-
     ```
 
 2. **Create and activate a virtual environment**:
