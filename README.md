@@ -50,12 +50,10 @@ This project enhances the audio quality of videos by extracting the audio, conve
 
 2. **Run the script**:
     ```bash
-    python process_video.py --video_path input/video.mp4 --output output_video.mp4
+    python process_video.py input_video_path.mp4
     ```
-
-3. **Command-Line Arguments**:
-    - `--video_path`: Path to the input video file.
-    - `--output`: Path for the output video file (optional; default is `output_video.mp4`).
+    - wait for 20 to 30 secs 
+   
 
 ## Project Workflow
 
@@ -78,13 +76,9 @@ This project enhances the audio quality of videos by extracting the audio, conve
 
 - **Python**: 3.8+
 - **MoviePy**: For video processing
-    - Install using: `pip install moviepy`
-- **Azure OpenAI SDK**: For interacting with Azure OpenAI API
-    - Install using: `pip install azure-openai`
-- **SpeechRecognition**: For converting audio to text
-    - Install using: `pip install SpeechRecognition`
-- **gTTS**: For converting text to speech
-    - Install using: `pip install gTTS`
+- **Azure OpenAI**: For interacting with Azure OpenAI API
+- **deepgram**: For converting audio to text
+- **deepgram**: For converting text to speech
 
 ## License
 
