@@ -14,6 +14,7 @@ from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
 
 load_dotenv()
 AUDIO_FILE = sys.argv[1]
+NEW_VIDEO_FILE =os.getenv("NEW_VIDEO_FILE_PATH")
 API_KEY = os.getenv("DG_API_KEY")
 
 def main():
@@ -32,7 +33,7 @@ def main():
             payload: FileSource = {
                 "buffer": buffer_data,
             }
-
+            print("Audio-to-text conversion script is runnig...")
             #STEP 2: Configure Deepgram options for audio analysis
             options = PrerecordedOptions(
                 model="nova-2",
@@ -78,6 +79,7 @@ def main():
                     }
 
             ## Making the POST request to the Azure OpenAI endpoint
+            print("Azure OpenAI is correction grammatical mistakes, lot of umms...and hmms etc....")
             response_AI = requests.post(azure_openai_endpoint, headers=headers, json=data)
             if response_AI.status_code == 200:
                 result = response_AI.json()  # Parse the JSON response
@@ -93,15 +95,17 @@ def main():
                 video = VideoFileClip(AUDIO_FILE)
                 video = video.set_audio(None)
                 arr_audio=[]
+                print("Text-to-audio conversion script is running.....")
                 for i in range(len(chunk)):
                     SPEAK_OPTIONS = chunk[i]
                     filename = f"audio/output{i}.wav"
                     s_tiem= start_time[i]
                     response = deepgram.speak.v("1").save(filename, SPEAK_OPTIONS, optionst_v)
                     arr_audio.append(AudioFileClip(filename).set_start(s_tiem))
+                print("Compiling the video with the new audio.....")
                 final_audio = CompositeAudioClip(arr_audio)
                 final_video = video.set_audio(final_audio)
-                final_video.write_videofile("output_video.mp4", codec="libx264", audio_codec="aac")
+                final_video.write_videofile(NEW_VIDEO_FILE+AUDIO_FILE, codec="libx264", audio_codec="aac")
                
             else:
                 # Handle errors if the request was not successful
