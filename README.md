@@ -50,7 +50,7 @@ This project enhances the audio quality of videos by extracting the audio, conve
 
 2. **Run the script**:
     ```bash
-    python process_video.py input_video_path.mp4
+    python main.py input_video_path.mp4
     ```
     - wait for 20 to 30 secs 
    
