@@ -35,14 +35,14 @@ def main():
             f.write(uploaded_file.getbuffer())
 
         # Display the path
-        st.write(f"File saved at: {file_path}")
+        st.write(f"Video is uploaded.")
         AUDIO_FILE=file_path
 
     # while(AUDIO_FILE==""):
     #     time.sleep(1)
     azure_openai_key = os.getenv("azure_openai_key") # Replace with your actual key
     azure_openai_endpoint = os.getenv("azure_openai_endpoint")  # Correct the endpoint URL
-    print(AUDIO_FILE)
+    # print(AUDIO_FILE)
     # Check if both the key and endpoint are provided
     if azure_openai_key and azure_openai_endpoint and API_KEY and AUDIO_FILE:
         try:
@@ -55,6 +55,7 @@ def main():
                 "buffer": buffer_data,
             }
             print("Audio-to-text conversion script is runnig...")
+            st.write("Audio-to-text conversion script is runnig...")
             #STEP 2: Configure Deepgram options for audio analysis
             options = PrerecordedOptions(
                 model="nova-2",
@@ -101,6 +102,7 @@ def main():
 
             ## Making the POST request to the Azure OpenAI endpoint
             print("Azure OpenAI is correction grammatical mistakes, lot of umms...and hmms etc....")
+            st.write("Azure OpenAI is correction grammatical mistakes, lot of umms...and hmms etc....")
             response_AI = requests.post(azure_openai_endpoint, headers=headers, json=data)
             if response_AI.status_code == 200:
                 result = response_AI.json()  # Parse the JSON response
@@ -117,6 +119,7 @@ def main():
                 video = video.set_audio(None)
                 arr_audio=[]
                 print("Text-to-audio conversion script is running.....")
+                st.write("Text-to-audio conversion script is running.....")
                 for i in range(len(chunk)):
                     SPEAK_OPTIONS = chunk[i]
                     filename = f"audio/output{i}.wav"
@@ -124,6 +127,7 @@ def main():
                     response = deepgram.speak.v("1").save(filename, SPEAK_OPTIONS, optionst_v)
                     arr_audio.append(AudioFileClip(filename).set_start(s_tiem))
                 print("Compiling the video with the new audio.....")
+                st.write("Compiling the video with the new audio.....")
                 final_audio = CompositeAudioClip(arr_audio)
                 final_video = video.set_audio(final_audio)
                 final_video.write_videofile(NEW_VIDEO_FILE+AUDIO_FILE.split('/')[-1], codec="libx264", audio_codec="aac")
@@ -131,9 +135,11 @@ def main():
             else:
                 # Handle errors if the request was not successful
                 print(f"Failed to connect or retrieve response: {response.status_code} - {response.text}")
+                st.write(f"Failed to connect or retrieve response: {response.status_code} - {response.text}")
         except Exception as e:
             # Handle any exceptions that occur during the request
             print(f"ERRORR: Failed to connect or retrieve response: {str(e)}")
+            st.write(f"ERRORR: Failed to connect or retrieve response: {str(e)}")
     else:
         # Warn the user if key or endpoint is missing
         print("Please enter all the required details.")
