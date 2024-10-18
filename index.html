@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curious PM Project Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Curious PM Project</h1>
+            <a href="https://miro.com/app/board/uXjVLRKRgGg=/" target="_blank" class="link">Project Flow Diagram</a>
+        </header>
+        <section>
+            <h2>Project Flow Diagram</h2>
+            <iframe width="100%" height="550" src="https://miro.com/app/live-embed/uXjVLRKRgGg=/?moveToViewport=-1247,-525,1837,912&embedId=383609660988" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+        </section>
+        <section>
+            <h2>Overview</h2>
+            <p>
+                This project focuses on improving the quality of audio within videos by extracting the audio, converting it into text (transcription), correcting grammar, and eliminating filler words using Azure OpenAI. After cleaning the transcript, it is converted back into audio and synchronised with the original video. The most challenging part of the project was remapping the newly generated audio back onto the original video without causing any synchronisation issues, ensuring there was no delay or mismatch between the video frames and the new audio.
+            </p>
+        </section>
+
+        <section>
+            <h2>Problem Statement</h2>
+            <p>
+                When processing video content to improve its audio quality, there are several key challenges:
+            </p>
+            <ul>
+                <li><strong>Audio Extraction:</strong> Isolating the audio from the video file for processing.</li>
+                <li><strong>Speech Recognition:</strong> Converting the extracted audio into text using a reliable speech-to-text engine.</li>
+                <li><strong>Grammar Correction and Filler Word Removal:</strong> Correcting grammatical issues and eliminating filler words to enhance clarity.</li>
+                <li><strong>Text-to-Speech Conversion:</strong> Re-converting the cleaned transcript into an audio format.</li>
+                <li><strong>Synchronisation (The Most Challenging Part):</strong> Ensuring that the newly generated audio, which may have slightly altered timing due to the removal of filler words, matches the original video precisely without any audio-video delay.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Solution Process</h2>
+            <ol>
+                <li><strong>Audio Extraction:</strong> The first step involved isolating the audio from the video. This audio track was then prepared for further processing.</li>
+                <li><strong>Speech-to-Text Conversion:</strong> The audio was converted into a text transcript using the Deepgram API. This transcript formed the basis for the next steps in the process.</li>
+                <li><strong>Text Cleaning and Grammar Correction:</strong> Azure OpenAI was used to clean the transcript by correcting grammatical errors and removing common filler words like “uh,” “um,” and “hmm.” This resulted in a more professional and clear transcript, which could then be converted back into speech.</li>
+                <li><strong>Text-to-Speech Conversion:</strong> The cleaned transcript was converted back into an audio format using text-to-speech technology (Deepgram API). This generated the new, corrected audio track, which was now shorter due to the removal of filler words and pauses.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Tackling the Most Challenging Part: Audio-Video Synchronisation</h2>
+            <h3>The Core Challenge:</h3>
+            <p>
+                After correcting the transcript and removing filler words, the new audio became shorter than the original, creating a significant issue in ensuring that the new audio would align perfectly with the video. This required careful attention to maintain synchronisation between the speech and video frames, especially to avoid any lip-sync mismatches.
+            </p>
+
+            <h3>Solution Approach:</h3>
+            <ul>
+                <li><strong>Breaking the Audio into Chunks:</strong> To solve this, I divided the original audio into chunks based on the natural breaks at the end of each sentence. Each sentence served as a checkpoint for mapping the audio back to the video.</li>
+                <li><strong>Processing Sentences Individually:</strong> Each sentence from the cleaned transcript was converted into an audio segment, ensuring that the remapping respected the original video’s structure.</li>
+                <li><strong>Remapping Audio Using Checkpoints:</strong> Using the time checkpoints of the original sentences, I remapped each newly generated audio segment onto the video, maintaining perfect synchronisation.</li>
+            </ul>
+
+            <h3>Outcome:</h3>
+            <p>
+                This method ensured that the new audio fit seamlessly with the original video without introducing any delays or synchronisation issues. By breaking down the audio into sentence chunks, it allowed for precise alignment and perfect timing, resulting in a natural and polished video output.
+            </p>
+        </section>
+
+        <section>
+            <h2>Conclusion</h2>
+            <p>
+                This project demonstrates a complete solution for enhancing the audio content of videos while addressing the critical challenge of maintaining synchronisation between the modified audio and the video. By leveraging Azure OpenAI to clean up the transcript and applying advanced techniques to remap the new audio to the original video, the project improves the clarity and professionalism of spoken content in videos. This solution is particularly useful for content creators and educators looking to enhance the quality of their video content without sacrificing synchronisation between the audio and the visual elements.
+            </p>
+        </section>
+
+        
+    </div>
+</body>
+</html>
