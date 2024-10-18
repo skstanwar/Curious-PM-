@@ -77,8 +77,8 @@ This project enhances the audio quality of videos by extracting the audio, conve
 - **Python**: 3.8+
 - **MoviePy**: For video processing
 - **Azure OpenAI**: For interacting with Azure OpenAI API
-- **deepgram**: For converting audio to text
-- **deepgram**: For converting text to speech
+- **deepgram**: For converting audio to text and text to audio
+- **streamlit**: For web app view application
 
 ## License
 
