@@ -1,6 +1,9 @@
 import openai
 import requests
 import os
+import streamlit as st
+import pandas as pd
+from io import StringIO
 import sys
 from dotenv import load_dotenv
 import json
@@ -10,18 +13,36 @@ from deepgram import (
     FileSource,
     SpeakOptions,
 )
+import time
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
 
 load_dotenv()
-AUDIO_FILE = sys.argv[1]
+AUDIO_FILE =""
 NEW_VIDEO_FILE =os.getenv("NEW_VIDEO_FILE_PATH")
 API_KEY = os.getenv("DG_API_KEY")
 
 def main():
+    global AUDIO_FILE 
+    uploaded_file = st.file_uploader("Choose a file")
+    if uploaded_file is not None:
+        # Create a temporary path to store the uploaded file
+        temp_dir = "./uploaded_video"
+        os.makedirs(temp_dir, exist_ok=True)
 
+        # Save the file locally
+        file_path = os.path.join(temp_dir, uploaded_file.name)
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        # Display the path
+        st.write(f"File saved at: {file_path}")
+        AUDIO_FILE=file_path
+
+    # while(AUDIO_FILE==""):
+    #     time.sleep(1)
     azure_openai_key = os.getenv("azure_openai_key") # Replace with your actual key
     azure_openai_endpoint = os.getenv("azure_openai_endpoint")  # Correct the endpoint URL
-    
+    print(AUDIO_FILE)
     # Check if both the key and endpoint are provided
     if azure_openai_key and azure_openai_endpoint and API_KEY and AUDIO_FILE:
         try:
@@ -105,8 +126,8 @@ def main():
                 print("Compiling the video with the new audio.....")
                 final_audio = CompositeAudioClip(arr_audio)
                 final_video = video.set_audio(final_audio)
-                final_video.write_videofile(NEW_VIDEO_FILE+AUDIO_FILE, codec="libx264", audio_codec="aac")
-               
+                final_video.write_videofile(NEW_VIDEO_FILE+AUDIO_FILE.split('/')[-1], codec="libx264", audio_codec="aac")
+                st.video(NEW_VIDEO_FILE+AUDIO_FILE.split('/')[-1])
             else:
                 # Handle errors if the request was not successful
                 print(f"Failed to connect or retrieve response: {response.status_code} - {response.text}")
