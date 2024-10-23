@@ -9,6 +9,7 @@ This project enhances the audio quality of videos by extracting the audio, conve
 - [Project Workflow](#project-workflow)
 - [Dependencies](#dependencies)
 - [License](#license)
+- [Flow](#flow)
 
 ## Features
 
@@ -17,6 +18,9 @@ This project enhances the audio quality of videos by extracting the audio, conve
 - **Filler Word Removal**: Removes common filler words such as "uh", "um", and "hmm" from the transcript to improve clarity.
 - **Text-to-Speech**: Converts the cleaned transcript back into audio.
 - **Seamless Audio-Video Synchronization**: Ensures the new audio is perfectly synchronized with the original video, without any delay or mismatch.
+
+## Flow 
+- https://skstanwar.github.io/Curious-PM-/
 
 ## Installation
 
